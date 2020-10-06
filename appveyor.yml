@@ -1,0 +1,8 @@
+version: 0.0.{build}
+
+skip_tags: true
+
+build_script:
+  - build.sh
+
+test: off
