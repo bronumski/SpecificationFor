@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationFor", "Specifi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationFor.Tests", "SpecificationFor.Tests\SpecificationFor.Tests.csproj", "{4433E1C2-9F7F-4D86-A3C5-DE1789F77B71}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{28FBB8C7-E4B8-407B-AD58-86A5C3846958}"
+ProjectSection(SolutionItems) = preProject
+	..\build.fsx = ..\build.fsx
+	..\build.sh = ..\build.sh
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
