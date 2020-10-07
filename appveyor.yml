@@ -1,10 +1,12 @@
+image: Visual Studio 2019
+
 version: 0.0.{build}
 
 skip_tags: true
 
 build_script:
   - dotnet --version
-  - dotnet tool install fake-cli --tool-path .\.fake
-  - .\.fake\fake run build.fsx
+  - dotnet tool restore
+  - dotnet fake run build.fsx
 
 test: off
