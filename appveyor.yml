@@ -5,6 +5,6 @@ skip_tags: true
 build_script:
   - dotnet --version
   - dotnet tool install fake-cli --tool-path .\.fake
-  - .\fake run build.fsx
+  - .\.fake\fake run build.fsx
 
 test: off
