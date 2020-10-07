@@ -19,7 +19,8 @@ let setDotNetBuildOptions : (DotNet.BuildOptions -> DotNet.BuildOptions) =
   fun (dotNetBuildOptions:DotNet.BuildOptions) ->
     { dotNetBuildOptions with
         Configuration = buildConfiguration
-        Common        = { dotNetBuildOptions.Common with CustomParams = Some "--no-restore" }
+        Common        = { dotNetBuildOptions.Common with CustomParams = Some "" }
+        // Common       = { dotNetBuildOptions.Common with CustomParams = Some "--no-restore" }
     }
     
 let setDotNetTestOptions (projFilePath:string) : (DotNet.TestOptions-> DotNet.TestOptions) =
