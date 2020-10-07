@@ -3,7 +3,7 @@ version: 0.0.{build}
 skip_tags: true
 
 build_script:
-  - dotnet tool install fake-cli --version 5.20.3
-  - build.sh
+  - dotnet tool install --version 5.20.3 fake-cli
+  - dotnet fake run build.fsx
 
 test: off
