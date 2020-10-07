@@ -4,7 +4,7 @@ skip_tags: true
 
 build_script:
   - dotnet --version
-  - dotnet tool install fake-cli
+  - dotnet tool install fake-cli --global
   - dotnet fake run build.fsx
 
 test: off
