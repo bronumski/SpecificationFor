@@ -43,18 +43,12 @@ Target.create "Test" (fun _ ->
         Configuration = buildConfiguration
     }
 
-  !!("**/*.Tests/*.Unit.Tests.dll")
-  |> DotCover.runNUnit3
-      (fun dotCoverOptions -> { dotCoverOptions with
-                                  Output = binDir @@ "CoverageSnapshot.dcvr"})
-      (fun nUnit3Options -> { nUnit3Options with
-                                  ShadowCopy = false })
-//  !! (buildDir @@ "release" @@ "/*.Unit.Tests.dll") 
-//    |> DotCover.runNUnit 
-//        (fun dotCoverOptions -> { dotCoverOptions with 
-//                Output = artifactsDir @@ "NUnitDotCoverSnapshot.dcvr" }) 
-//        (fun nUnitOptions -> { nUnitOptions with
-//                DisableShadowCopy = true })
+//  !!("**/*.Tests/*.Unit.Tests.dll")
+//  |> DotCover.runNUnit3
+//      (fun dotCoverOptions -> { dotCoverOptions with
+//                                  Output = binDir @@ "CoverageSnapshot.dcvr"})
+//      (fun nUnit3Options -> { nUnit3Options with
+//                                  ShadowCopy = false })
   !!("**/*.Tests.csproj")
   |> Seq.toArray
   |> Array.Parallel.iter (
