@@ -1,6 +1,7 @@
 #r "paket:
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
+nuget Fake.DotNet.Testing.DotCover
 nuget Fake.IO.FileSystem
 //"
 
@@ -9,35 +10,27 @@ nuget Fake.IO.FileSystem
 open System.IO
 open Fake.Core
 open Fake.DotNet
+open Fake.DotNet.Testing
 open Fake.IO
+open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
 
-let buildDir = "./build/."
+let binDir = "./bin/."
 let buildConfiguration = DotNet.BuildConfiguration.Release
 
-let setDotNetBuildOptions : (DotNet.BuildOptions -> DotNet.BuildOptions) =
-  fun (dotNetBuildOptions:DotNet.BuildOptions) ->
-    { dotNetBuildOptions with
-        Configuration = buildConfiguration
-        Common        = { dotNetBuildOptions.Common with CustomParams = Some "" }
-        // Common       = { dotNetBuildOptions.Common with CustomParams = Some "--no-restore" }
-    }
-    
-let setDotNetTestOptions (projFilePath:string) : (DotNet.TestOptions-> DotNet.TestOptions) =
-  let projectDirectory = Path.GetDirectoryName projFilePath
-  fun (dotNetTestOptions:DotNet.TestOptions) ->
-    { dotNetTestOptions with
-        Common        = { dotNetTestOptions.Common with WorkingDirectory = projectDirectory }
-        NoBuild       = true
-        Configuration = buildConfiguration
-    }
-
-// *** Define Targets ***
 Target.create "Clean" (fun _ ->
-  Shell.cleanDirs [buildDir]
+  Shell.cleanDirs [binDir]
 )
 
 Target.create "Build" (fun _ ->
+  let setDotNetBuildOptions : (DotNet.BuildOptions -> DotNet.BuildOptions) =
+    fun (dotNetBuildOptions:DotNet.BuildOptions) ->
+      { dotNetBuildOptions with
+          Configuration = buildConfiguration
+          Common        = { dotNetBuildOptions.Common with CustomParams = Some "" }
+          // Common       = { dotNetBuildOptions.Common with CustomParams = Some "--no-restore" }
+      }
+
   DotNet.build setDotNetBuildOptions "./src/SpecificationFor.sln"
 )
 
@@ -50,6 +43,18 @@ Target.create "Test" (fun _ ->
         Configuration = buildConfiguration
     }
 
+  !!("**/*.Tests/*.Unit.Tests.dll")
+  |> DotCover.runNUnit3
+      (fun dotCoverOptions -> { dotCoverOptions with
+                                  Output = binDir @@ "CoverageSnapshot.dcvr"})
+      (fun nUnit3Options -> { nUnit3Options with
+                                  ShadowCopy = false })
+//  !! (buildDir @@ "release" @@ "/*.Unit.Tests.dll") 
+//    |> DotCover.runNUnit 
+//        (fun dotCoverOptions -> { dotCoverOptions with 
+//                Output = artifactsDir @@ "NUnitDotCoverSnapshot.dcvr" }) 
+//        (fun nUnitOptions -> { nUnitOptions with
+//                DisableShadowCopy = true })
   !!("**/*.Tests.csproj")
   |> Seq.toArray
   |> Array.Parallel.iter (

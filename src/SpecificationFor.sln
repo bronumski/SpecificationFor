@@ -7,6 +7,7 @@ ProjectSection(SolutionItems) = preProject
 	..\.gitignore = ..\.gitignore
 	..\LICENSE = ..\LICENSE
 	..\README.md = ..\README.md
+	..\.config\dotnet-tools.json = ..\.config\dotnet-tools.json
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationFor", "SpecificationFor\SpecificationFor.csproj", "{8BFD3104-706E-4EDB-B3A7-4B20586522D1}"

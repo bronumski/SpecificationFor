@@ -6,12 +6,23 @@ namespace SpecificationFor.SpecificationForFixtures
 {
   class SimpleTest : SpecFor<SimpleTest.SubjectUnderTest>
   {
-    [SetUp]
+    [OneTimeSetUp]
     public void SetUp() => ArrangeAndAct();
     
+    protected override void Act(SubjectUnderTest subject) => subject.MethodUnderTest();
+
     [Test]
     public void SubjectUnderTestIsCreated()
       => Subject.Should().NotBeNull();
-    public class SubjectUnderTest {}
+
+    [Test]
+    public void ActionOnSubjectIsInvoked()
+      => Subject.WasCalled.Should().BeTrue();
+
+    public class SubjectUnderTest
+    {
+      public bool WasCalled { get; private set; }
+      public void MethodUnderTest() => WasCalled = true;
+    }
   }
 }
